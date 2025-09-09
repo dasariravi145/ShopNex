@@ -1,16 +1,18 @@
 package com.ecommernce.service;
 
-import java.util.List;
+
 
 import com.ecommernce.model.Category;
+import com.ecommernce.payload.CategoryDTO;
+import com.ecommernce.payload.CategoryResponse;
 
 public interface CategoryService {
 
-			 public List<Category> getAllCategories();
+			 public CategoryResponse getAllCategories();
 			 
-			 public void createCategory(Category category);
+			 public CategoryDTO createCategory(CategoryDTO categoryDTO);
 			 
-			 public String deleteCategory(Long categoryId);
+			 public CategoryDTO deleteCategory(Long categoryId);
 			 
-			 public Category updateCategory(Category category,Long categoryId);
+			 public CategoryDTO updateCategory(CategoryDTO categoryDTO,Long categoryId);
 }

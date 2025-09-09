@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.ecommernce.payload.APIResponse;
+
 @RestControllerAdvice
 public class MyGlobalEaceptionHandler {
 
@@ -29,17 +31,17 @@ public class MyGlobalEaceptionHandler {
 		return new ResponseEntity<Map<String,String>>(response,HttpStatus.BAD_REQUEST);
 	}
     @ExceptionHandler(ResourceNotFoundException.class)
-	public ResponseEntity<String> resourseNotFound(ResourceNotFoundException ex){
+	public ResponseEntity<APIResponse> resourseNotFound(ResourceNotFoundException ex){
 		
 		    String message=ex.getMessage();
-		    
-		    return new ResponseEntity<String>(message,HttpStatus.NOT_FOUND);
+		    APIResponse apiresponse=new APIResponse(message,false);
+		    return new ResponseEntity<APIResponse>(apiresponse,HttpStatus.NOT_FOUND);
 	}
     @ExceptionHandler(APIExcpetion.class)
-	public ResponseEntity<String> myAPIException(APIExcpetion ex){
+	public ResponseEntity<APIResponse> myAPIException(APIExcpetion ex){
 		
 		    String message=ex.getMessage();
-		    
-		    return new ResponseEntity<String>(message,HttpStatus.BAD_REQUEST);
+		    APIResponse apiresponse=new APIResponse(message,false);
+		    return new ResponseEntity<APIResponse>(apiresponse,HttpStatus.BAD_REQUEST);
 	}
 }
