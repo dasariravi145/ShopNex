@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.ecommernce.config.APIConstants;
 import com.ecommernce.payload.CategoryDTO;
 import com.ecommernce.payload.CategoryResponse;
 import com.ecommernce.service.CategoryService;
@@ -26,8 +29,12 @@ public class CategoryController {
 	          private CategoryService categoryService;
 	          
 	          @GetMapping("/getAllCategories")
-	          public ResponseEntity<CategoryResponse> getAllCategories(){
-	        	  return new ResponseEntity<>(categoryService.getAllCategories(),HttpStatus.OK);
+	          public ResponseEntity<CategoryResponse> getAllCategories(@RequestParam(name="pageNumber",defaultValue=APIConstants.PAGE_NUMBER,required=false) Integer pageNumber,
+	        		  @RequestParam(name= "pageSize",defaultValue=APIConstants.PAGE_SIZE,required=false) Integer pageSize,
+	        		  @RequestParam(name= "sortBy",defaultValue=APIConstants.SORT_CATEGORIES_BY,required=false) String sortBy,
+	        		  @RequestParam(name= "sortOrder",defaultValue=APIConstants.SORT_DIR,required=false) String sortOrder){
+	        	        CategoryResponse categoryResponse=categoryService.getAllCategories(pageNumber,pageSize,sortBy,sortOrder);
+	        	  return new ResponseEntity<>(categoryResponse,HttpStatus.OK);
 	          }
 	          @PostMapping("/createCategory")
 	          public ResponseEntity<CategoryDTO> createCategory(@Valid @RequestBody CategoryDTO categoryDTO) { 

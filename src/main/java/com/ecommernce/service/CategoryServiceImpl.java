@@ -4,6 +4,10 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.ecommernce.exceptions.APIExcpetion;
@@ -21,14 +25,25 @@ public class CategoryServiceImpl implements CategoryService{
 	     @Autowired
 	     private ModelMapper modelMapper;
          @Override
-		 public CategoryResponse getAllCategories() {
-			// TODO Auto-generated method stub
-        	List<Category> categories= categoryRepository.findAll();
+		 public CategoryResponse getAllCategories(Integer pageNumber, Integer pageSize, String sortBy, String sortOrder) {
+        	 
+        	    Sort sortByAndOder=sortOrder.equalsIgnoreCase("ASC")?Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
+        	    
+        	    Pageable pageDetails=PageRequest.of(pageNumber, pageSize,sortByAndOder);
+        	    Page<Category> categoryPage=categoryRepository.findAll(pageDetails);
+        	    List<Category> categories=categoryPage.getContent();
+		
         	  if(categories.isEmpty())
         	 throw new APIExcpetion("Categories not created still Empty");
-        	  List<CategoryDTO> respose=categories.stream().map(category->modelMapper.map(categories, CategoryDTO.class)).toList();
+        	  List<CategoryDTO> respose=categories.stream()
+        			  .map(category->modelMapper.map(category, CategoryDTO.class)).toList();
         	  CategoryResponse categoryResponse=new CategoryResponse();
         	  categoryResponse.setContent(respose);
+        	  categoryResponse.setPageNumber(categoryPage.getNumber());
+        	  categoryResponse.setPageSize(categoryPage.getSize());
+        	  categoryResponse.setTotalElement(categoryPage.getTotalElements());
+        	  categoryResponse.setTotalpages(categoryPage.getTotalPages());
+        	  categoryResponse.setLastPage(categoryPage.isLast());
 			 return categoryResponse;  
 		 }
 

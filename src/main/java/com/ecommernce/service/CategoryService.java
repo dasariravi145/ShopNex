@@ -2,13 +2,12 @@ package com.ecommernce.service;
 
 
 
-import com.ecommernce.model.Category;
 import com.ecommernce.payload.CategoryDTO;
 import com.ecommernce.payload.CategoryResponse;
 
 public interface CategoryService {
 
-			 public CategoryResponse getAllCategories();
+			 public CategoryResponse getAllCategories(Integer pageNumber, Integer pageSize, String sortBy, String sortOrder);
 			 
 			 public CategoryDTO createCategory(CategoryDTO categoryDTO);
 			 
