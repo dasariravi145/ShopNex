@@ -13,13 +13,12 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CategoryResponse {
+public class ProductResponse {
 
-	       private List<CategoryDTO> content;
+	       private List<ProductDTO> content;
 	       private Integer pageNumber;
 	       private Integer pageSize;
-	       private Long totalElement;
-	       private Integer totalpages;
-	       private boolean lastPage;	       
-	       
+	       private Long totalElemts;
+	       private Integer totalPages;
+	       private Boolean lastPage;
 }

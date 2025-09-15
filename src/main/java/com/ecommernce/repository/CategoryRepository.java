@@ -1,5 +1,6 @@
 package com.ecommernce.repository;
 
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.ecommernce.model.Category;
