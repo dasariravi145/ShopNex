@@ -1,6 +1,5 @@
 package com.ecommernce.payload;
 
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -12,9 +11,13 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CategoryDTO {
+public class CartItemDTO {
+	
+	private Long cartItemId;
+    private CartDTO cart;
+    private ProductDTO product;
+    private Integer quantity;
+    private Double discount;
+    private Double productPrice;
 
-	       private Long categoryId;
-	       @Size(min=4,message="Category Name Must Start 4 Characters")
-	       private String categoryName;
 }

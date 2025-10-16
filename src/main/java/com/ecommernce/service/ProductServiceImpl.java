@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ecommernce.exceptions.APIExcpetion;
-import com.ecommernce.exceptions.ResourceNotFoundException;
+import com.ecommernce.exceptions.ResourseNotFoundException;
 import com.ecommernce.model.Category;
 import com.ecommernce.model.Product;
 import com.ecommernce.payload.ProductDTO;
@@ -67,7 +67,7 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public ProductDTO addProducts(ProductDTO productDTO,Long categoryId) {
 		Category category=categoryRepository
-				.findById(categoryId).orElseThrow(()->new ResourceNotFoundException("Category","CategoryId",categoryId));
+				.findById(categoryId).orElseThrow(()->new ResourseNotFoundException("Category","CategoryId",categoryId));
 		
 		List<Product> products=category.getProducts();
 		Boolean isfindpathproducts=true;
@@ -99,7 +99,7 @@ public class ProductServiceImpl implements ProductService{
 	public ProductDTO deleteProduct(Long productId) {
 		
 		Product findByProductId=productRepository.findById(productId)
-				.orElseThrow(()->new ResourceNotFoundException("Product","ProductId",productId));
+				.orElseThrow(()->new ResourseNotFoundException("Product","ProductId",productId));
 	
 		productRepository.deleteById(productId);
 		return modelMapper.map(findByProductId, ProductDTO.class);
@@ -108,7 +108,7 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public ProductDTO updateProduct(ProductDTO productDTO, Long productId) {
 		Product findByProductId=productRepository.findById(productId)
-				.orElseThrow(()->new ResourceNotFoundException("Product","ProductId",productId));
+				.orElseThrow(()->new ResourseNotFoundException("Product","ProductId",productId));
 		
 		findByProductId.setDescription(productDTO.getDescription());
 		findByProductId.setDiscount(productDTO.getDiscount());
@@ -125,7 +125,7 @@ public class ProductServiceImpl implements ProductService{
 	public ProductDTO updateImage(Long productId, MultipartFile file) throws IOException {
 		
 		Product findByProducts=productRepository.findById(productId)
-				.orElseThrow(()->new ResourceNotFoundException("Product","ProductId",productId));
+				.orElseThrow(()->new ResourseNotFoundException("Product","ProductId",productId));
 		String fileName=fileService.uploadFile(filePath, file);
 		findByProducts.setImage(fileName);
 		Product updateProduct=productRepository.save(findByProducts);
@@ -135,7 +135,7 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public ProductResponse getAllProductByProductId(Long categoryId,Integer pageNumber, Integer pageSize, String sortBy, String sortOrder) {
 	
-		 Category category=categoryRepository.findById(categoryId).orElseThrow(()->new ResourceNotFoundException("Category","CategoryId",categoryId));
+		 Category category=categoryRepository.findById(categoryId).orElseThrow(()->new ResourseNotFoundException("Category","CategoryId",categoryId));
 		 Sort sortedByOrder=sortOrder.equalsIgnoreCase("asc")
 					?Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
 		 Pageable pageDetails=PageRequest.of(pageNumber, pageSize,sortedByOrder);

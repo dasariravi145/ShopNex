@@ -11,7 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.ecommernce.exceptions.APIExcpetion;
-import com.ecommernce.exceptions.ResourceNotFoundException;
+import com.ecommernce.exceptions.ResourseNotFoundException;
 import com.ecommernce.model.Category;
 import com.ecommernce.payload.CategoryDTO;
 import com.ecommernce.payload.CategoryResponse;
@@ -63,7 +63,7 @@ public class CategoryServiceImpl implements CategoryService{
 		 @Override
 		 public CategoryDTO deleteCategory(Long categoryId) {
 			// TODO Auto-generated method stub
-			 Category category=categoryRepository.findById(categoryId).orElseThrow(()->new ResourceNotFoundException("Category","category",categoryId));
+			 Category category=categoryRepository.findById(categoryId).orElseThrow(()->new ResourseNotFoundException("Category","category",categoryId));
 			 categoryRepository.delete(category);
 			 CategoryDTO categoryDTO=modelMapper.map(category, CategoryDTO.class);
 			return categoryDTO;
@@ -71,7 +71,7 @@ public class CategoryServiceImpl implements CategoryService{
 
 		 @Override
 		 public CategoryDTO updateCategory(CategoryDTO categoryDTO, Long categoryId) {
-			     Category existing=categoryRepository.findById(categoryId).orElseThrow(()->new ResourceNotFoundException("Category","category",categoryId));
+			     Category existing=categoryRepository.findById(categoryId).orElseThrow(()->new ResourseNotFoundException("Category","category",categoryId));
 			     Category updateCategory=modelMapper.map(existing, Category.class);
 			     updateCategory.setCategoryId(categoryId);
 		          categoryRepository.save(updateCategory);
